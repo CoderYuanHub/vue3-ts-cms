@@ -1,10 +1,13 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <div id="nav">基本页面</div>
   <router-view />
 </template>
+
+<script>
+export default {
+  name: "app"
+};
+</script>
 
 <style lang="less">
 #app {
