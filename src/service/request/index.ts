@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AxiosInstance } from "axios";
 import type { HYRequestInterceptors, HYRequestConfig } from "./type";
 import { ElLoading } from "element-plus";
-// import { ILoadingInstance } from 'element-plus/lib/'
+// import type { ILoadingInstance } from "element-plus";
 
 const DEAFULT_LOADING = true;
 

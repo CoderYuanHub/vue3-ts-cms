@@ -1,6 +1,7 @@
 <template>
-  <div id="nav">基本页面</div>
-  <router-view />
+  <div class="app">
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -17,17 +18,8 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.app {
+  height: 100%;
+  width: 100%;
 }
 </style>
