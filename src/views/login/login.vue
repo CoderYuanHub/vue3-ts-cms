@@ -45,17 +45,17 @@ export default defineComponent({
     LoginPhone
   },
   setup() {
-    const activeName = ref("account");
+    const activeName = ref<string>("account");
     const accountRef = ref<InstanceType<typeof LoginAccount>>();
     const phoneRef = ref<InstanceType<typeof LoginPhone>>();
-    const isKeepPassword = ref(true);
+    const isKeepPassword = ref<boolean>(false);
     const handleClick = (tab: string, event: Event) => {
       console.log("点击事件", tab, event);
     };
 
     const onSubmit = () => {
       if (activeName.value === "account") {
-        accountRef.value?.onSubmit();
+        accountRef.value?.onSubmit(isKeepPassword.value);
       } else {
         phoneRef.value?.onSubmit();
       }

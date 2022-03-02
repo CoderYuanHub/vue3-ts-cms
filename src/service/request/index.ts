@@ -39,7 +39,7 @@ class HYRequest {
             background: "rgba(0, 0, 0, 0.5)"
           });
         }
-        console.log("所有实例请求拦截器", config);
+        // console.log("所有实例请求拦截器", config);
         return config;
       },
       (error) => {
@@ -50,10 +50,9 @@ class HYRequest {
     // 响应拦截器
     this.instance.interceptors.response.use(
       (config) => {
-        console.log("所有实例响应拦截器");
+        // console.log("所有实例响应拦截器");
         this.loading?.close();
-
-        return config;
+        return config.data;
       },
       (error) => {
         this.loading?.close();
@@ -82,7 +81,7 @@ class HYRequest {
           }
           // 2.将showLoadig设置为true，这样不会影响下一个请求
           this.showLoading = DEAFULT_LOADING;
-          console.log(res);
+          // console.log(res);
           resolve(res);
         })
         .catch((error) => {
@@ -91,6 +90,22 @@ class HYRequest {
           return error;
         });
     });
+  }
+
+  get<T>(config: HYRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: "GET" });
+  }
+
+  post<T>(config: HYRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: "POST" });
+  }
+
+  delete<T>(config: HYRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: "DELETE" });
+  }
+
+  patch<T>(config: HYRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: "PATCH" });
   }
 }
 

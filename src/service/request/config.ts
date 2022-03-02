@@ -6,11 +6,11 @@ let BASE_URL = "/";
 const BASE_TIMEOUT = 5000;
 
 if (process.env.NODE_ENV === "production") {
-  BASE_URL = "http://152.136.185.210:5000";
+  BASE_URL = "/api";
 } else if (process.env.NODE_ENV === "development") {
-  BASE_URL = "http://123.207.32.32:8000";
+  BASE_URL = "/api";
 } else {
-  BASE_URL = "http://localhost";
+  BASE_URL = "/api";
 }
 
 export { BASE_URL, BASE_TIMEOUT };
