@@ -6,12 +6,13 @@ const hyRequest = new HYRequest({
   timeout: BASE_TIMEOUT,
   interceptors: {
     requestInterceptor: (config) => {
-      console.log("请求拦截2222");
-      console.log("====", config);
       // 携带token请求
       const token = localCase.getCache("token");
       if (token) {
         // config.headers.Authorization = `Bearer ${token}`;
+        config.headers = {
+          Authorization: `Bearer ${token}`
+        };
       }
       return config;
     },

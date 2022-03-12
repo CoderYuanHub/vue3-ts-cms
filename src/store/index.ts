@@ -1,8 +1,8 @@
-import { createStore } from "vuex";
+import { createStore, Store, useStore as useVuexStore } from "vuex";
 import login from "./login/login";
-import { IRootState } from "./type";
+import { IRootState, IStoreType } from "./type";
 
-export default createStore<IRootState>({
+const store = createStore<IRootState>({
   state() {
     return {
       name: ""
@@ -14,3 +14,14 @@ export default createStore<IRootState>({
     login
   }
 });
+// 封装一个useStore，用于返回所有的store类型
+export function useStore(): Store<IStoreType> {
+  return useVuexStore();
+}
+
+// 保证刷新vuex不被清空，做一个状态保留
+export function saveStore(): void {
+  store.dispatch("login/saveStore");
+}
+
+export default store;
