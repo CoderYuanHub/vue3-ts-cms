@@ -1,12 +1,12 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="200px">
-        <nav-menu></nav-menu>
+      <el-aside :width="isCollapse ? '65px' : '200px'">
+        <nav-menu :isCollapse="isCollapse"></nav-menu>
       </el-aside>
       <el-container>
         <el-header>
-          <nav-header></nav-header>
+          <nav-header @is-collapse="handleCollapse"></nav-header>
         </el-header>
         <el-main>Main</el-main>
       </el-container>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 import NavHeader from "@/components/nav-header/nav-header.vue";
 import NavMenu from "@/components/nav-menu/nav-menu.vue";
@@ -24,6 +24,16 @@ export default defineComponent({
   components: {
     NavHeader,
     NavMenu
+  },
+  setup() {
+    let isCollapse = ref<boolean>(false);
+    const handleCollapse = (value: boolean) => {
+      isCollapse.value = value;
+    };
+    return {
+      isCollapse,
+      handleCollapse
+    };
   }
 });
 </script>
