@@ -43,6 +43,11 @@ export default defineComponent({
   height: 100%;
   width: 100%;
 
+  /deep/ .el-menu--collapse,
+  /deep/ .el-menu-vertical-demo {
+    border-width: 0;
+  }
+
   .main-content {
     height: 100%;
     .el-header {
