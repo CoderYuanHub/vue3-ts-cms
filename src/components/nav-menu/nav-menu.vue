@@ -21,11 +21,14 @@
         :index="index + ''"
       >
         <template #title>
-          <el-icon><location /></el-icon>
+          <el-icon>
+            <component :is="handleIcon(item.name)"></component>
+          </el-icon>
           <span>{{ item.name }}</span>
         </template>
         <el-menu-item
           v-for="(itemC, index) in item.children"
+          @click="handleClick(itemC)"
           :key="itemC.id + index"
           :index="itemC.id + ''"
           >{{ itemC.name }}</el-menu-item
@@ -37,12 +40,21 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from "@/store";
-import { Location } from "@element-plus/icons-vue";
+import {
+  DataAnalysis,
+  Tools,
+  ShoppingCart,
+  ChatDotRound
+} from "@element-plus/icons-vue";
 export default defineComponent({
   name: "nav-menu",
   components: {
-    Location
+    DataAnalysis,
+    Tools,
+    ShoppingCart,
+    ChatDotRound
   },
   props: {
     isCollapse: {
@@ -52,6 +64,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
     const userMenus = computed(() => store.state.login.userMenus);
     const handleOpen = (key: string, keyPath: string[]) => {
       console.log(key, keyPath);
@@ -59,9 +72,29 @@ export default defineComponent({
     const handleClose = (key: string, keyPath: string[]) => {
       console.log(key, keyPath);
     };
+    const handleClick = (item: any) => {
+      console.log(item);
+      router.push({
+        path: item.url
+      });
+    };
+    const handleIcon = (name: string) => {
+      switch (name) {
+        case "系统总览":
+          return "DataAnalysis";
+        case "系统管理":
+          return "Tools";
+        case "商品中心":
+          return "ShoppingCart";
+        default:
+          return "ChatDotRound";
+      }
+    };
     return {
       handleOpen,
       handleClose,
+      handleIcon,
+      handleClick,
       userMenus
     };
   }
