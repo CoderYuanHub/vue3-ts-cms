@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import LocalCache from "@/utils/cache";
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,6 +7,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/main",
+    name: "main",
     component: () =>
       import(/* webpackChunkName: "main" */ "@/views/main/main.vue")
   },
@@ -25,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 });
 
@@ -37,5 +38,9 @@ router.beforeEach((to) => {
     }
   }
 });
+
+// router.onError((error) => {
+//   console.log(error);
+// });
 
 export default router;

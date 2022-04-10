@@ -9,6 +9,7 @@ import {
 } from "@/service/login/login";
 import router from "@/router";
 import LocalCache from "@/utils/cache";
+import { mapMenusToRoutes } from "@/utils/map-menus";
 
 // Module 接收两种泛型，一个是当前状态接口类型，一个是根接口类型
 const loginModule: Module<ILoginState, IRootState> = {
@@ -34,6 +35,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     // 更改菜单信息
     changeMenu(state, menu: Array<any>): void {
       state.userMenus = menu;
+      const routes = mapMenusToRoutes(menu);
+      routes.forEach((route) => {
+        router.addRoute("main", route);
+      });
     }
   },
   // 用于外部调用操作vuex

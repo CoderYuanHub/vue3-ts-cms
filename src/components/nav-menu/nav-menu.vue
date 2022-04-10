@@ -75,7 +75,7 @@ export default defineComponent({
     const handleClick = (item: any) => {
       console.log(item);
       router.push({
-        path: item.url
+        path: item.url ?? "/not-found"
       });
     };
     const handleIcon = (name: string) => {

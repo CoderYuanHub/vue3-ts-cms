@@ -1,5 +1,5 @@
 <template>
-  <div class="not-found">not-found</div>
+  <div class="not-found"></div>
 </template>
 
 <script lang="ts">
@@ -11,4 +11,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.not-found {
+  height: 100%;
+  width: 100%;
+  background: url("../../assets/img/404.webp") no-repeat center;
+}
+</style>
