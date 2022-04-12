@@ -3,18 +3,29 @@
     <el-icon class="fold-menu">
       <component :is="cpn" @click="handleFoldClick"></component>
     </el-icon>
+    <div class="content">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>
+          <a href="/">promotion management</a>
+        </el-breadcrumb-item>
+      </el-breadcrumb>
+      <user-info></user-info>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { Expand, Fold } from "@element-plus/icons-vue";
+import UserInfo from "./user-info.vue";
 
 export default defineComponent({
   name: "nav-header",
   components: {
     Expand,
-    Fold
+    Fold,
+    UserInfo
   },
   emits: ["isCollapse"],
   setup(props, { emit }) {

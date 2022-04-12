@@ -39,6 +39,14 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute("main", route);
       });
+    },
+    // 退出登录
+    logout(state): void {
+      state.token = "";
+      state.userInfo = {};
+      state.userMenus = [];
+      LocalCache.clearCache();
+      router.push("/login");
     }
   },
   // 用于外部调用操作vuex
