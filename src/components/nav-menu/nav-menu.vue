@@ -9,7 +9,7 @@
       active-text-color="#ffd04b"
       background-color="#0c2135"
       class="el-menu-vertical-demo"
-      default-active="2"
+      :default-active="defaultValue"
       :collapse="isCollapse"
       text-color="#fff"
       @open="handleOpen"
@@ -27,9 +27,9 @@
           <span>{{ item.name }}</span>
         </template>
         <el-menu-item
-          v-for="(itemC, index) in item.children"
+          v-for="(itemC, indexC) in item.children"
           @click="handleClick(itemC)"
-          :key="itemC.id + index"
+          :key="itemC.id + indexC"
           :index="itemC.id + ''"
           >{{ itemC.name }}</el-menu-item
         >
@@ -39,8 +39,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import { computed, defineComponent, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import {
   DataAnalysis,
@@ -48,6 +48,8 @@ import {
   ShoppingCart,
   ChatDotRound
 } from "@element-plus/icons-vue";
+
+import { pathMapToMenu } from "@/utils/map-menus";
 export default defineComponent({
   name: "nav-menu",
   components: {
@@ -65,7 +67,10 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
     const userMenus = computed(() => store.state.login.userMenus);
+    const menu = pathMapToMenu(userMenus.value, route.path);
+    const defaultValue = ref(menu.id + "");
     const handleOpen = (key: string, keyPath: string[]) => {
       console.log(key, keyPath);
     };
@@ -91,6 +96,7 @@ export default defineComponent({
       }
     };
     return {
+      defaultValue,
       handleOpen,
       handleClose,
       handleIcon,
@@ -121,7 +127,7 @@ export default defineComponent({
     color: white;
   }
 }
-::v-deep .el-submenu__title {
+:v-deep(.el-submenu__title) {
   background-color: #001529 !important;
 }
 </style>

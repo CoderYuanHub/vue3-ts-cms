@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
+let firstMenu: any = null;
 export function mapMenusToRoutes(userMenus: Array<any>): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = [];
   // 1.加载所有默认的routes
@@ -19,9 +20,28 @@ export function mapMenusToRoutes(userMenus: Array<any>): RouteRecordRaw[] {
         if (route) {
           routes.push(route);
         }
+        if (!firstMenu) {
+          firstMenu = menu;
+        }
       }
     });
   };
   _recurseGetRoute(userMenus);
   return routes;
 }
+
+// 根据当前路由获取路由信息
+export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
+      if (findMenu) {
+        return findMenu;
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu;
+    }
+  }
+}
+
+export { firstMenu };
