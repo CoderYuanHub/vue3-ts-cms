@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
+import { IBreadcrumb } from "@/base-ui/breadcrumb/types";
 let firstMenu: any = null;
 export function mapMenusToRoutes(userMenus: Array<any>): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = [];
@@ -31,17 +32,33 @@ export function mapMenusToRoutes(userMenus: Array<any>): RouteRecordRaw[] {
 }
 
 // 根据当前路由获取路由信息
-export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadCrumbs?: IBreadcrumb[]
+): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
       if (findMenu) {
+        breadCrumbs?.push({ name: menu.name, url: menu.url });
+        breadCrumbs?.push({ name: findMenu.name, url: findMenu.url });
         return findMenu;
       }
     } else if (menu.type === 2 && menu.url === currentPath) {
       return menu;
     }
   }
+}
+
+// 根据当前路由信息获取面包屑信息
+export function pathMapToBreadcrumb(
+  userMenus: any[],
+  currentPath: string
+): IBreadcrumb[] {
+  const breadcrumbs: IBreadcrumb[] = [];
+  pathMapToMenu(userMenus, currentPath, breadcrumbs);
+  return breadcrumbs;
 }
 
 export { firstMenu };
