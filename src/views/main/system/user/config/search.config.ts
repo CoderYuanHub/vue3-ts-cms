@@ -2,16 +2,19 @@ import { IFormItem, IForm } from "@/base-ui/form";
 
 const formItems: IFormItem[] = [
   {
+    filed: "username",
     type: "input",
     label: "用户名",
     placeholder: "请输入用户名"
   },
   {
+    filed: "password",
     type: "input",
     label: "密码",
     placeholder: "请输入密码"
   },
   {
+    filed: "sport",
     type: "select",
     label: "喜欢的运动",
     placeholder: "请选择喜欢的运动",
@@ -31,6 +34,7 @@ const formItems: IFormItem[] = [
     ]
   },
   {
+    filed: "createdtime",
     type: "datepicker",
     label: "创建时间",
     placeholder: "请选择创建时间范围",

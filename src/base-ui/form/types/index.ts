@@ -1,4 +1,5 @@
 export interface IFormItem {
+  filed: string;
   label: string;
   type: string;
   rules?: any[];
