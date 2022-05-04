@@ -78,7 +78,6 @@ export default defineComponent({
       console.log(key, keyPath);
     };
     const handleClick = (item: any) => {
-      console.log(item);
       router.push({
         path: item.url ?? "/not-found"
       });

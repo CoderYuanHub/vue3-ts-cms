@@ -17,7 +17,7 @@ class HYRequest {
 
     // 保存基本信息
     this.showLoading = config.showLoading ?? DEAFULT_LOADING;
-    this.interceptors = config?.interceptors;
+    this.interceptors = config.interceptors;
     // 使用拦截器
     // 1.从config中取出的拦截器是对应的实例的拦截器
     this.instance.interceptors.request.use(
@@ -61,7 +61,7 @@ class HYRequest {
       }
     );
   }
-  request<T>(config: HYRequestConfig<T>): Promise<T> {
+  request<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 当个请求config处理
       if (config.interceptors?.requestInterceptor) {
@@ -92,19 +92,19 @@ class HYRequest {
     });
   }
 
-  get<T>(config: HYRequestConfig<T>): Promise<T> {
+  get<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "GET" });
   }
 
-  post<T>(config: HYRequestConfig<T>): Promise<T> {
+  post<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "POST" });
   }
 
-  delete<T>(config: HYRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "DELETE" });
   }
 
-  patch<T>(config: HYRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PATCH" });
   }
 }
