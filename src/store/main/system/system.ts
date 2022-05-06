@@ -10,6 +10,18 @@ const systemModule: Module<ISystemState, IRootState> = {
       userCount: 0
     };
   },
+  getters: {
+    pageListData(state) {
+      return (pageName: string) => {
+        switch (pageName) {
+          case "users":
+            return state.userList;
+          case "role":
+            return state.userList;
+        }
+      };
+    }
+  },
   mutations: {
     changeUserList(state, payload: any[]) {
       state.userList = payload;
@@ -20,8 +32,19 @@ const systemModule: Module<ISystemState, IRootState> = {
   },
   actions: {
     async getPageListAction({ commit }, payload: any) {
+      let pageUrl = "";
+      switch (payload.pageName) {
+        case "users":
+          pageUrl = "/users/list";
+          break;
+        case "role":
+          pageUrl = "/role/list";
+          break;
+        default:
+          break;
+      }
       // 1.发送页面请求
-      const data = await getPageListData(payload.url, payload.queryParams);
+      const data = await getPageListData(pageUrl, payload.queryParams);
       // 2.更新store数据
       commit("changeUserList", data.data.list);
       commit("changeUserCount", data.data.totalCount);
