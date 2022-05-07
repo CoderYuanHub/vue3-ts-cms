@@ -18,13 +18,15 @@
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
-                  v-model="formData[item.filed]"
+                  :model-value="modelValue[item.filed]"
+                  @update:modelValue="handleValueChange($event, item.filed)"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
                   style="width: 100%"
-                  v-model="formData[item.filed]"
+                  :model-value="modelValue[item.filed]"
+                  @update:modelValue="handleValueChange($event, item.filed)"
                   :placeholder="item.placeholder"
                 >
                   <el-option
@@ -37,7 +39,8 @@
               </template>
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
-                  v-model="formData[item.filed]"
+                  :model-value="modelValue[item.filed]"
+                  @update:modelValue="handleValueChange($event, item.filed)"
                   style="width: 100%"
                   v-bind="item.otherOptions"
                 ></el-date-picker>
@@ -52,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from "vue";
+import { defineComponent, PropType } from "vue";
 import { IFormItem } from "../types";
 export default defineComponent({
   props: {
@@ -79,18 +82,23 @@ export default defineComponent({
   },
   emit: ["update:modelValue"],
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue });
-    watch(
-      formData,
-      (newValue) => {
-        emit("update:modelValue", newValue);
-      },
-      {
-        deep: true
-      }
-    );
+    const handleValueChange = (value: any, filed: string) => {
+      console.log(value, filed);
+      emit("update:modelValue", { ...props.modelValue, [filed]: value });
+    };
+    // const formData = ref({ ...props.modelValue });
+    // watch(
+    //   formData,
+    //   (newValue) => {
+    //     emit("update:modelValue", newValue);
+    //   },
+    //   {
+    //     deep: true
+    //   }
+    // );
     return {
-      formData
+      // formData,
+      handleValueChange
     };
   }
 });

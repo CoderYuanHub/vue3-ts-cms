@@ -70,13 +70,17 @@ export default defineComponent({
     const total = computed(() => store.state.system.userCount);
     const pageSize = ref(10);
     const currentPage = ref(0);
-    store.dispatch("system/getPageListAction", {
-      pageName: props.pageName,
-      queryParams: {
-        offset: 1,
-        size: 10
-      }
-    });
+    const getTableList = (queryParams: any = {}) => {
+      store.dispatch("system/getPageListAction", {
+        pageName: props.pageName,
+        queryParams: {
+          offset: 1,
+          size: 10,
+          ...queryParams
+        }
+      });
+    };
+    getTableList();
     const tableData = computed(() =>
       store.getters["system/pageListData"](props.pageName)
     );
@@ -100,6 +104,7 @@ export default defineComponent({
       pageSize,
       currentPage,
       tableData,
+      getTableList,
       handleSelectionChange,
       handleEditAction,
       handleDelAction,

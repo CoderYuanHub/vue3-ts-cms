@@ -6,8 +6,8 @@
       </template>
       <template #footer>
         <div style="text-align: right">
-          <el-button type="primary">搜索</el-button>
-          <el-button type="primary">重置</el-button>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
+          <el-button type="primary" @click="handleReset">重置</el-button>
         </div>
       </template>
     </yy-form>
@@ -27,15 +27,26 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    const formData = ref({
-      username: "",
-      password: "",
-      sport: "",
-      createdtime: ""
-    });
+  emits: ["formSearch", "formReset"],
+  setup(props, { emit }) {
+    // 1.优化动态绑定字段
+    const formItems = props.formConfig?.formConfig ?? [];
+    const formOriginData: any = {};
+    for (const item of formItems) {
+      formOriginData[item.key] = "";
+    }
+    const formData = ref(formOriginData);
+    const handleSearch = () => {
+      emit("formSearch", formData.value);
+    };
+    const handleReset = () => {
+      formData.value = {};
+      emit("formReset");
+    };
     return {
-      formData
+      formData,
+      handleSearch,
+      handleReset
     };
   }
 });
