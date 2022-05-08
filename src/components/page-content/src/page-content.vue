@@ -67,9 +67,11 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const total = computed(() => store.state.system.userCount);
+    const total = computed(() =>
+      store.getters["system/pafeCountData"](props.pageName)
+    );
     const pageSize = ref(10);
-    const currentPage = ref(0);
+    let currentPage = ref(1);
     const getTableList = (queryParams: any = {}) => {
       store.dispatch("system/getPageListAction", {
         pageName: props.pageName,
@@ -94,9 +96,11 @@ export default defineComponent({
       console.log("点击删除操作", value);
     };
     const handleSizeChange = (val: any) => {
-      console.log("每页显示条数", val);
+      getTableList({ offset: currentPage.value, size: val });
     };
     const handleCurrentChange = (val: any) => {
+      currentPage.value = val;
+      getTableList({ offset: val });
       console.log("当前页码", val);
     };
     return {
@@ -115,4 +119,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

@@ -20,6 +20,16 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.userList;
         }
       };
+    },
+    pafeCountData(state) {
+      return (pageName: string) => {
+        switch (pageName) {
+          case "users":
+            return state.userCount;
+          case "role":
+            return state.userCount;
+        }
+      };
     }
   },
   mutations: {
