@@ -18,6 +18,7 @@
     <template #action="scope">
       <el-button
         plain
+        v-if="isUpdate"
         type="text"
         size="small"
         @click="handleEditAction(scope.value)"
@@ -26,6 +27,7 @@
       </el-button>
       <el-button
         plain
+        v-if="isDelete"
         type="text"
         size="small"
         @click="handleDelAction(scope.value)"
@@ -66,6 +68,7 @@
 import { defineComponent, ref, computed } from "vue";
 import YyTable from "@/base-ui/table";
 import { useStore } from "@/store";
+import { usePermission } from "@/hooks/use-permission";
 export default defineComponent({
   props: {
     contentTableConfig: {
@@ -85,9 +88,16 @@ export default defineComponent({
     const total = computed(() =>
       store.getters["system/pageCountData"](props.pageName)
     );
+    // 获取操作权限
+    const isCreate = usePermission(props.pageName, "create");
+    const isUpdate = usePermission(props.pageName, "update");
+    const isDelete = usePermission(props.pageName, "delete");
+    const isQuery = usePermission(props.pageName, "query");
+
     const pageSize = ref(10);
     let currentPage = ref(1);
     const getTableList = (queryParams: any = {}) => {
+      if (!isQuery) return;
       store.dispatch("system/getPageListAction", {
         pageName: props.pageName,
         queryParams: {
@@ -133,6 +143,10 @@ export default defineComponent({
       currentPage,
       tableData,
       otherSlots,
+      isCreate,
+      isUpdate,
+      isDelete,
+      isQuery,
       getTableList,
       handleSelectionChange,
       handleEditAction,

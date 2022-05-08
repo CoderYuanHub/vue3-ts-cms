@@ -9,7 +9,7 @@ import {
 } from "@/service/login/login";
 import router from "@/router";
 import LocalCache from "@/utils/cache";
-import { mapMenusToRoutes } from "@/utils/map-menus";
+import { mapMenusToPermissions, mapMenusToRoutes } from "@/utils/map-menus";
 
 // Module 接收两种泛型，一个是当前状态接口类型，一个是根接口类型
 const loginModule: Module<ILoginState, IRootState> = {
@@ -18,7 +18,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: "",
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permission: []
     };
   },
   getters: {},
@@ -39,6 +40,9 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute("main", route);
       });
+      // 获取用户菜单权限
+      const permission = mapMenusToPermissions(menu);
+      state.permission = permission;
     },
     // 退出登录
     logout(state): void {
