@@ -12,6 +12,9 @@
     <template #createAt="scope">
       {{ $filter.formatTime(scope.value.createAt) }}
     </template>
+    <template #updateAt="scope">
+      {{ $filter.formatTime(scope.value.createAt) }}
+    </template>
     <template #action="scope">
       <el-button
         plain
@@ -30,6 +33,18 @@
         删除
       </el-button>
     </template>
+
+    <!-- 在page-content中动态插入剩余的插槽 -->
+    <template
+      v-for="item in otherSlots"
+      :key="item.prop"
+      #[item.slotName]="scope"
+    >
+      <template v-if="item.slotName">
+        <slot :name="item.slotName" :value="scope.value"></slot>
+      </template>
+    </template>
+
     <template #footer>
       <div class="footer">
         <div></div>
@@ -68,7 +83,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const total = computed(() =>
-      store.getters["system/pafeCountData"](props.pageName)
+      store.getters["system/pageCountData"](props.pageName)
     );
     const pageSize = ref(10);
     let currentPage = ref(1);
@@ -85,6 +100,15 @@ export default defineComponent({
     getTableList();
     const tableData = computed(() =>
       store.getters["system/pageListData"](props.pageName)
+    );
+    const otherSlots: any[] = props.contentTableConfig.propsList.filter(
+      (item: any) => {
+        if (item.slotName === "status") return false;
+        if (item.slotName === "createAt") return false;
+        if (item.slotName === "updateAt") return false;
+        if (item.slotName === "handler") return false;
+        return true;
+      }
     );
     const handleSelectionChange = (val: any) => {
       console.log("勾选框的值", val);
@@ -108,6 +132,7 @@ export default defineComponent({
       pageSize,
       currentPage,
       tableData,
+      otherSlots,
       getTableList,
       handleSelectionChange,
       handleEditAction,
