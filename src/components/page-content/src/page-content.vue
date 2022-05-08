@@ -113,10 +113,10 @@ export default defineComponent({
     );
     const otherSlots: any[] = props.contentTableConfig.propsList.filter(
       (item: any) => {
-        if (item.slotName === "status") return false;
+        if (item.slotName === "enable") return false;
         if (item.slotName === "createAt") return false;
         if (item.slotName === "updateAt") return false;
-        if (item.slotName === "handler") return false;
+        if (item.slotName === "action") return false;
         return true;
       }
     );
@@ -128,6 +128,10 @@ export default defineComponent({
     };
     const handleDelAction = (value: any) => {
       console.log("点击删除操作", value);
+      store.dispatch("system/deletePageListAction", {
+        pageName: props.pageName,
+        id: value.id
+      });
     };
     const handleSizeChange = (val: any) => {
       getTableList({ offset: currentPage.value, size: val });

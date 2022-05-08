@@ -8,3 +8,9 @@ export function getPageListData(url: string, queryParams: any): any {
     data: queryParams
   });
 }
+
+export function deletePageData(url: string): any {
+  return hyRequest.delete({
+    url
+  });
+}
