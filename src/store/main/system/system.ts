@@ -9,7 +9,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       userList: [],
       userCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     };
   },
   getters: {
@@ -22,6 +24,8 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.userList;
           case "goods":
             return state.goodsList;
+          case "menu":
+            return state.menuList;
         }
       };
     },
@@ -34,6 +38,8 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.userCount;
           case "goods":
             return state.goodsCount;
+          case "menu":
+            return state.menuCount;
         }
       };
     }
@@ -50,6 +56,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeGoodsCount(state, payload: number) {
       state.goodsCount = payload;
+    },
+    changeMenuList(state, payload: any[]) {
+      state.menuList = payload;
+    },
+    changeMenuCount(state, payload: number) {
+      state.menuCount = payload;
     }
   },
   actions: {
@@ -73,14 +85,15 @@ const systemModule: Module<ISystemState, IRootState> = {
           commit("changeGoodsList", data.data.list);
           commit("changeGoodsCount", data.data.totalCount);
           break;
+        case "menu":
+          pageUrl = "/menu/list";
+          data = await getPageListData(pageUrl, payload.queryParams);
+          commit("changeMenuList", data.data.list);
+          commit("changeMenuCount", data.data?.totalCount || 0);
+          break;
         default:
           break;
       }
-      // 1.发送页面请求
-      // const data = await getPageListData(pageUrl, payload.queryParams);
-      // 2.更新store数据
-      commit("changeUserList", data.data.list);
-      commit("changeUserCount", data.data.totalCount);
     }
   }
 };

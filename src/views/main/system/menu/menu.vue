@@ -1,16 +1,30 @@
 <template>
   <div class="menu">
-    <h2>menu</h2>
+    <page-content
+      ref="pageContentRef"
+      :pageName="pageName"
+      :contentTableConfig="contentTableConfig"
+    ></page-content>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import PageContent from "@/components/page-content";
+import { contentTableConfig } from "./config/content.config";
+
 export default defineComponent({
   name: "hy-menu",
+  components: {
+    PageContent
+  },
   setup() {
-    return {};
+    const pageName = "menu";
+    return {
+      pageName,
+      contentTableConfig
+    };
   }
 });
 </script>

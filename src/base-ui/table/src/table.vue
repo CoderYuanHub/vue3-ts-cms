@@ -3,6 +3,7 @@
   <el-table
     :data="tableData"
     @select="handleSelectionChange"
+    v-bind="childrenProps"
     style="width: 100%"
   >
     <el-table-column
@@ -30,7 +31,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <div class="footer">
+  <div class="footer" v-if="showFooter">
     <slot name="footer"></slot>
   </div>
 </template>
@@ -55,6 +56,14 @@ export default defineComponent({
     showSelectColumn: {
       type: Boolean,
       default: false
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ["select"],
