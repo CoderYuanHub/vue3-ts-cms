@@ -1,7 +1,12 @@
 import { Module } from "vuex";
 import { IRootState } from "@/store/type";
 import { ISystemState } from "./type";
-import { getPageListData, deletePageData } from "@/service/main/system/system";
+import {
+  getPageListData,
+  deletePageData,
+  createPageData,
+  editPageData
+} from "@/service/main/system/system";
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
@@ -99,6 +104,19 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { pageName, id } = payload;
       const pageUrl = `/${pageName}/${id}`;
       await deletePageData(pageUrl);
+      dispatch("getPageListAction", { pageName });
+    },
+    async createPageDataAction({ dispatch }, payload: any) {
+      console.log(payload);
+      const { pageName, newData } = payload;
+      const pageUrl = `/${pageName}`;
+      await createPageData(pageUrl, newData);
+      dispatch("getPageListAction", { pageName });
+    },
+    async editPageDataAction({ dispatch }, payload: any) {
+      const { pageName, id, newData } = payload;
+      const pageUrl = `/${pageName}/${id}`;
+      await editPageData(pageUrl, newData);
       dispatch("getPageListAction", { pageName });
     }
   }

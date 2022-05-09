@@ -1,3 +1,4 @@
+import { getPageListData } from "@/service/main/system/system";
 import { createStore, Store, useStore as useVuexStore } from "vuex";
 import login from "./login/login";
 import system from "./main/system/system";
@@ -6,11 +7,38 @@ import { IRootState, IStoreType } from "./type";
 const store = createStore<IRootState>({
   state() {
     return {
-      name: ""
+      name: "",
+      entrieDepartment: [],
+      entrieRole: []
     };
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    changeEntrieDepartment(state, payload) {
+      state.entrieDepartment = payload;
+    },
+    changeEntureRole(state, payload) {
+      state.entrieRole = payload;
+    }
+  },
+  actions: {
+    async getInitialDataAction({ commit }) {
+      // 1.请求部门和角色数据
+      const departmentResult = await getPageListData("/department/list", {
+        offset: 0,
+        size: 1000
+      });
+      const { list: departmentList } = departmentResult.data;
+      const roleResult = await getPageListData("/role/list", {
+        offset: 0,
+        size: 1000
+      });
+      const { list: roleList } = roleResult.data;
+
+      // 2.设置部门和角色数据
+      commit("changeEntrieDepartment", departmentList);
+      commit("changeEntureRole", roleList);
+    }
+  },
   modules: {
     login,
     system
@@ -24,6 +52,7 @@ export function useStore(): Store<IStoreType> {
 // 保证刷新vuex不被清空，做一个状态保留
 export function saveStore(): void {
   store.dispatch("login/saveStore");
+  store.dispatch("getInitialDataAction");
 }
 
 export default store;

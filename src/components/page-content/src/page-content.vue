@@ -4,6 +4,13 @@
     :tableData="tableData"
     @select="handleSelectionChange"
   >
+    <template #header>
+      <div class="header">
+        <el-button @click="handleAddClick" v-if="isCreate" type="primary"
+          >新建用户</el-button
+        >
+      </div>
+    </template>
     <template #enable="scope">
       <el-button plain :type="scope.value.enable ? 'primary' : 'danger'">
         {{ scope.value.enable ? "启用" : "禁用" }}
@@ -83,7 +90,8 @@ export default defineComponent({
   components: {
     YyTable
   },
-  setup(props) {
+  emits: ["add:list", "edit:list"],
+  setup(props, { emit }) {
     const store = useStore();
     const total = computed(() =>
       store.getters["system/pageCountData"](props.pageName)
@@ -124,7 +132,7 @@ export default defineComponent({
       console.log("勾选框的值", val);
     };
     const handleEditAction = (value: any) => {
-      console.log("点击编辑操作", value);
+      emit("edit:list", value);
     };
     const handleDelAction = (value: any) => {
       console.log("点击删除操作", value);
@@ -139,7 +147,10 @@ export default defineComponent({
     const handleCurrentChange = (val: any) => {
       currentPage.value = val;
       getTableList({ offset: val });
-      console.log("当前页码", val);
+    };
+
+    const handleAddClick = () => {
+      emit("add:list");
     };
     return {
       total,
@@ -156,13 +167,17 @@ export default defineComponent({
       handleEditAction,
       handleDelAction,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      handleAddClick
     };
   }
 });
 </script>
 
 <style scoped>
+.header {
+  text-align: right;
+}
 .footer {
   display: flex;
   justify-content: space-between;
