@@ -135,7 +135,6 @@ export default defineComponent({
       emit("edit:list", value);
     };
     const handleDelAction = (value: any) => {
-      console.log("点击删除操作", value);
       store.dispatch("system/deletePageListAction", {
         pageName: props.pageName,
         id: value.id

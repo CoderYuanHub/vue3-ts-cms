@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import PageModal from "@/components/page-modal";
-type CallbackType = () => void;
+type CallbackType = (item?: any) => void;
 export function usePageModal(callback?: CallbackType): any {
   const defaultValue = ref({});
   const pageModalRef = ref<InstanceType<typeof PageModal>>();
@@ -10,7 +10,7 @@ export function usePageModal(callback?: CallbackType): any {
     }
     if (val) {
       defaultValue.value = val;
-      callback && callback();
+      callback && callback(val);
     } else {
       defaultValue.value = {};
     }

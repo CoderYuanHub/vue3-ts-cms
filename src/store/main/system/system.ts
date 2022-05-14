@@ -16,7 +16,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       goodsList: [],
       goodsCount: 0,
       menuList: [],
-      menuCount: 0
+      menuCount: 0,
+      roleList: [],
+      roleCount: 0
     };
   },
   getters: {
@@ -26,7 +28,7 @@ const systemModule: Module<ISystemState, IRootState> = {
           case "users":
             return state.userList;
           case "role":
-            return state.userList;
+            return state.roleList;
           case "goods":
             return state.goodsList;
           case "menu":
@@ -40,7 +42,7 @@ const systemModule: Module<ISystemState, IRootState> = {
           case "users":
             return state.userCount;
           case "role":
-            return state.userCount;
+            return state.roleCount;
           case "goods":
             return state.goodsCount;
           case "menu":
@@ -67,6 +69,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeMenuCount(state, payload: number) {
       state.menuCount = payload;
+    },
+    changeRoleList(state, payload: any[]) {
+      state.roleList = payload;
+    },
+    changeRoleCount(state, payload: number) {
+      state.roleCount = payload;
     }
   },
   actions: {
@@ -83,6 +91,9 @@ const systemModule: Module<ISystemState, IRootState> = {
         case "role":
           pageUrl = "/role/list";
           data = await getPageListData(pageUrl, payload.queryParams);
+          console.log(data, payload);
+          commit("changeRoleList", data.data.list);
+          commit("changeRoleCount", data.data.totalCount);
           break;
         case "goods":
           pageUrl = "/goods/list";

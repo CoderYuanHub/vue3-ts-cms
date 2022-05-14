@@ -56,7 +56,7 @@ const loginModule: Module<ILoginState, IRootState> = {
   // 用于外部调用操作vuex
   actions: {
     // 登陆
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 1.实现登陆逻辑
       const loginResult = await accountLogin(payload);
       const { id, token } = loginResult.data;
@@ -74,14 +74,17 @@ const loginModule: Module<ILoginState, IRootState> = {
       LocalCache.setCache("userMenus", userMenus.data);
       commit("changeMenu", userMenus.data);
 
+      // 发送初始化请求
+      dispatch("getInitialDataAction", null, { root: true });
       // 跳转到首页
       router.push("/");
     },
     // 保存vuex状态数据,防止刷新丢失
-    saveStore({ commit }) {
+    saveStore({ commit, dispatch }) {
       const token = LocalCache.getCache("token");
       if (token) {
         commit("changeToken", token);
+        dispatch("getInitialDataAction", null, { root: true });
       }
       const userInfo = LocalCache.getCache("userInfo");
       if (userInfo) {

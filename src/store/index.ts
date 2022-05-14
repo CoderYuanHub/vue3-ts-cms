@@ -9,7 +9,8 @@ const store = createStore<IRootState>({
     return {
       name: "",
       entrieDepartment: [],
-      entrieRole: []
+      entrieRole: [],
+      entrieMenu: []
     };
   },
   mutations: {
@@ -18,6 +19,9 @@ const store = createStore<IRootState>({
     },
     changeEntureRole(state, payload) {
       state.entrieRole = payload;
+    },
+    changeEntireMenu(state, payload) {
+      state.entrieMenu = payload;
     }
   },
   actions: {
@@ -33,10 +37,15 @@ const store = createStore<IRootState>({
         size: 1000
       });
       const { list: roleList } = roleResult.data;
+      const menuResult = await getPageListData("/menu/list", {});
+      const { list: menuList } = menuResult.data;
 
       // 2.设置部门和角色数据
       commit("changeEntrieDepartment", departmentList);
       commit("changeEntureRole", roleList);
+
+      // 3.设置菜单数据
+      commit("changeEntireMenu", menuList);
     }
   },
   modules: {
@@ -52,7 +61,7 @@ export function useStore(): Store<IStoreType> {
 // 保证刷新vuex不被清空，做一个状态保留
 export function saveStore(): void {
   store.dispatch("login/saveStore");
-  store.dispatch("getInitialDataAction");
+  // store.dispatch("getInitialDataAction");
 }
 
 export default store;

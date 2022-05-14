@@ -6,6 +6,7 @@ export interface IRootState {
   name: string;
   entrieDepartment: any[];
   entrieRole: any[];
+  entrieMenu: any[];
 }
 // 模块数据合集
 export interface IRootWithModule {
