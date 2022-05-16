@@ -63,7 +63,6 @@ export function pathMapToBreadcrumb(
 // 将路由返回菜单权限
 export function mapMenusToPermissions(userMenus: any[]): string[] {
   const permission: string[] = [];
-  console.error("userMenus", userMenus);
   const _recurseGetPermission = (menus: any[]) => {
     for (const menu of menus) {
       if (menu.type === 1 || menu.type === 2) {

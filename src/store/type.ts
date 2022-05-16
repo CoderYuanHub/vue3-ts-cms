@@ -1,5 +1,6 @@
 import { ILoginState } from "./login/type";
 import { ISystemState } from "./main/system/type";
+import { IDashboardState } from "./main/analysis/type";
 
 // 根数据类型
 export interface IRootState {
@@ -12,6 +13,7 @@ export interface IRootState {
 export interface IRootWithModule {
   login: ILoginState;
   system: ISystemState;
+  dashboard: IDashboardState;
 }
 
 // 跟数据类型和各个模块数据的合集
