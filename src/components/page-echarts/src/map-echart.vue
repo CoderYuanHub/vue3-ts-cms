@@ -24,7 +24,7 @@ const options = computed(
     ({
       tooltip: {
         show: true,
-        formatter: function (params) {
+        formatter: function (params: any) {
           if (params.data) return params.name + "：" + params.data["value"];
         }
       },
